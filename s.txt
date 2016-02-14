@@ -1,0 +1,30 @@
+/*
+In general one would approach this problem by iterating for all possible start and end combinations which would make N*(N-1)/2  combinations.
+	But instead of this one could  solve this using pre-computation i.e, let us consider cur_max(i) is sum of maximum sum contiguous subarray ending at index i, then cur_max(i) is given by,
+	cur_max(i) = max(cur_max(i-1)+val(i),val(i)) where val(i) is value at index i.
+Maximum sum subarray can be found by finding the maximum of all cur_max.
+By using the precomputed cur_max of i-1 we can compute cur_max of i. Hence the below logic becomes a optimal computation of largest sum contiguous subarray.
+*/
+
+#include<stdio.h>
+#define MAX 100
+ 
+int main()
+{
+	int size,input[MAX],i;
+	scanf("%d",&size);
+	for(i=0;i<size;i++){
+		scanf("%d",&input[i]);
+	}
+//curr_max computes the largest contiguous maximum sum ending at cur_idx
+	//max_so_far (global maxima)computes the largest contiguous maximum sum till the cur_idx
+	long max_so_far = input[0];
+	long curr_max = input[0];
+	for (i = 1; i < size; i++){
+		curr_max = (input[i]>curr_max+input[i]) ? input[i] : curr_max+input[i];
+		max_so_far =(max_so_far>curr_max) ? max_so_far : curr_max;
+	}
+	printf("%ld",max_so_far);
+	return 0;
+}
+
